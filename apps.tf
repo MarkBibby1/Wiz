@@ -39,7 +39,6 @@ resource "azuread_application_password" "wiz_da_orchestrator_pass" {
 resource "azuread_service_principal" "wiz_da_orchestrator_sp" {
   client_id                    = local.use_orchestrator_wiz_managed_app ? var.wiz_da_orchestrator_wiz_managed_app_id : azuread_application.wiz_da_orchestrator[0].client_id
   app_role_assignment_required = false
-  owners                       = [data.azuread_client_config.current.object_id]
   feature_tags {
     custom_single_sign_on = false
     enterprise            = false
@@ -147,7 +146,6 @@ resource "azuread_service_principal" "wiz_da_worker_sp" {
   count                        = var.use_worker_managed_identity ? 0 : 1
   client_id                    = azuread_application.wiz_da_worker[count.index].client_id
   app_role_assignment_required = false
-  owners                       = [data.azuread_client_config.current.object_id]
   feature_tags {
     custom_single_sign_on = false
     enterprise            = false
